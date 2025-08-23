@@ -1,4 +1,4 @@
-# Solving the Advent of Code 2021 in C++ on the Commodore 64 
+# Solving the Advent of Code 2021 in C++ on the Commodore 64
 
 ## TL;DR
 
@@ -18,22 +18,22 @@
 
 The [Advent of Code](https://adventofcode.com/) series of programming puzzles has definitely re-ignited my interest for puzzles and my passion for coding. I first discovered AoC by chance in 2017. I solved that year in [R](www.r-project.org), a statistics-oriented programming language that I have been utilizing frequently at work.
 
-In the subsequent years I continued using R, mainly because of my familiarity and fluency with it. Next year I have decided to switch to Python. Python is, after all, very well suited for such tasks. Due to lack of time I skipped a few year's event, did one year in R again, and one in Python. 
+In the subsequent years I continued using R, mainly because of my familiarity and fluency with it. Next year I have decided to switch to Python. Python is, after all, very well suited for such tasks. Due to lack of time I skipped a few year's event, did one year in R again, and one in Python.
 
 Experiencing how effective Python was at parsing the inputs (some days it almost felt like cheating), expressing the algorithms, and coding the core logic, I went on binge-solving the remaining years. In doing so I mostly used Python. But then it occurred to me that I was missing an opportunity to learn new languages. Therefore I switched to Go and Rust to solve some other years. I also planned to try out C++ and JavaScript, but since I was not careful with my pacing, I quickly ran out of years still to be solved.
 
 With only one year (2021) still remaining and two candidate languages to choose from, I made the choice and decided to solve it in C++, a language I already "knew" but hadn't used for a long time. Okay, but how did I end up on a C64, you ask? The answer is, simply, that the _**stars aligned**_:
 
-- I received a fully functional (and nicely preserved!) C64 as a gift from my former coworkers. They knew I'm into vintage computers, so it was a really nice and fitting gift.  
-- I wanted to "up the ante", to use [Reddit's AoC](https://www.reddit.com/r/adventofcode/) parlance, by making the puzzles more difficult. The exercise of solving all the past years had definitely increased my skills and repertoire of key algorithms (recursion, DFS, BFS, Dijkstra, A*, memoization, modular arithmetic, ...), so the puzzles became easier and easier to solve.  
-- I stumbled upon the awesome pioneering achievement of Jukka Jylänki and was deeply impressed; not only did he solve all days, he also live-streamed the achievement!  
+- I received a fully functional (and nicely preserved!) C64 as a gift from my former coworkers. They knew I'm into vintage computers, so it was a really nice and fitting gift.
+- I wanted to "up the ante", to use [Reddit's AoC](https://www.reddit.com/r/adventofcode/) parlance, by making the puzzles more difficult. The exercise of solving all the past years had definitely increased my skills and repertoire of key algorithms (recursion, DFS, BFS, Dijkstra, A*, memoization, modular arithmetic, ...), so the puzzles became easier and easier to solve.
+- I stumbled upon the awesome pioneering achievement of Jukka Jylänki and was deeply impressed; not only did he solve all days, he also live-streamed the achievement!
 - And lastly, the availability and maturity of the [llvm-mos](https://llvm-mos.org) compiler and the [VICE C64](http://vice-emu.sourceforge.net/) emulator made the whole thing feasible also from a workflow point of view. My MOS6502 assembly skills are far too limited to attempt solving anything but the simplest of the puzzles (and let's not get into the time commitment that would entail...).
 
-Another thing to note is also the element of nostalgia. My first computer ever was a Commodore 128. I fondly remember using the tape drive to load and save my BASIC programs. I never had a floppy drive. And when the tape drive failed, I simply used pen and paper to "store" and "reload" my work. I got quite adept at re-typing the code from scratch from my notebook when starting a new coding session.  
+Another thing to note is also the element of nostalgia. My first computer ever was a Commodore 128. I fondly remember using the tape drive to load and save my BASIC programs. I never had a floppy drive. And when the tape drive failed, I simply used pen and paper to "store" and "reload" my work. I got quite adept at re-typing the code from scratch from my notebook when starting a new coding session.
 
-So while the C64 is not exactly the same as the C128, the similarity of the experience still evoked some nice childhood memories and at the same time a reflection on how much things have progressed since then. To be able to close the AoC journey on the C64, solving contemporary puzzles using a modern language on hardware that is very similar to my first computer ever, was an opportunity impossible to pass.  
+So while the C64 is not exactly the same as the C128, the similarity of the experience still evoked some nice childhood memories and at the same time a reflection on how much things have progressed since then. To be able to close the AoC journey on the C64, solving contemporary puzzles using a modern language on hardware that is very similar to my first computer ever, was an opportunity impossible to pass.
 
-The last thing to note in the introduction: please don't expect too much from my code. It's been almost 20 years since I've last used C++. The language has evolved substantially since then and it continues to evolve. For example, I am browsing through discussions about the latest C++23/25/26 standards and I am struggling to understand even half of the nuance.  
+The last thing to note in the introduction: please don't expect too much from my code. It's been almost 20 years since I've last used C++. The language has evolved substantially since then and it continues to evolve. For example, I am browsing through discussions about the latest C++23/25/26 standards and I am struggling to understand even half of the nuance.
 
 ---
 
@@ -48,8 +48,8 @@ The Commodore 64 / C++ platform has multiple significant limitations that define
 - **REU (optional)**: with Jukka Ylänki's `reucpy` helper, which I turned into a header-only implementation, the [REU](https://en.wikipedia.org/wiki/Commodore_REU) becomes a practical extended memory and DMA scratchpad.
 
 ### Software
-- **C++ Subset**: I deliberately stayed in the [orthodox subset](https://gist.github.com/bkaradzic/2e39896bc7d8c34e042b): fixed-capacity templates with a MAX_SIZE parameter, no recursion, explicit arrays and iterators.  
-- **No STL**: too big, too dynamic, too memory-hungry. 
+- **C++ Subset**: I deliberately stayed in the [orthodox subset](https://gist.github.com/bkaradzic/2e39896bc7d8c34e042b): fixed-capacity templates with a MAX_SIZE parameter, no recursion, explicit arrays and iterators.
+- **No STL**: too big, too dynamic, too memory-hungry.
 - **No exceptions / RTTI**: asserts were helpful for debugging, and in some cases made code slightly faster (still don't understand how that is possible ಠ_ಠ).
 - **Templated header-only library**: to leverage templates.
 - **llvm-mos**: the key component, without a decent compiler this project would be dead in the water even before it began.
@@ -63,17 +63,17 @@ In contrast to the basic I/O & screen helpers, the library was not something I h
 
 - **Day 09**: Needed a `queue.h` for BFS/flood-fill.
 - **Day 10**: Needed a `stack.h` for bracket matching.
-- **Day 12**: graph traversal forced me to write a `hashset.h`.  
+- **Day 12**: graph traversal forced me to write a `hashset.h`.
 - **Day 15**: Implementing Dijkstra required a priority queue, so I implemented `min_heap.h`
 - **Day 18**: Built a compact binary tree, though this one I never generalized (TODO).
 - **Days 19, 21, 22, 23:** These exploded beyond 64 KB RAM. I wrote REU-backed variants:  `stack_reu.h`, `hashmap_reu.h`, `hashset_reu.h`, and `min_heap_reu.h`.
 
 I wrote most of the structure from scratch, but for some (e.g. for the min_heap) I searched the internet for minimum example C/C++ code and modified it for my use case.
 
-Other relevant parts of the library:  
-- **Screen & I/O helpers** (`AoC64.h`) to show banners, progress indicator, and measure elapsed time. 
+Other relevant parts of the library:
+- **Screen & I/O helpers** (`AoC64.h`) to show banners, progress indicator, and measure elapsed time.
 - **Math helpers** (`math.h`) define the MIN, MAX, ABS and SWAP macros.
-- **Hashing** (`pearson.h`) for compact key indexing.  
+- **Hashing** (`pearson.h`) for compact key indexing.
 - **REU operations** (`reucpy.h`) to enable large datasets, using the REU as a scratch storage for arbitrary data as well as a performance hack way to quickly copy or initialize  data in main memory via REU DMA functions.
 
 ---
@@ -85,7 +85,7 @@ Other relevant parts of the library:
 - **Emulator**: [VICE](http://vice-emu.sourceforge.io/).
 - **Dual builds**: All the code can be compiled and run on the host (Win 10, Microsoft Visual C++) for testing. The helpers have #ifdef's that figure out which platform is being utilized. This was helpful for debugging my solutions (no need to wait minutes or hours for the difficult challenges).
 - **Workflow**:
-    1. Encode the puzzle input as a header file, e.g. `input.h` (an important decision I have made was that I will *not* spend too much time on writing I/O procedures for reading and parsing files on the C64; I still did parsing of strings in the code, but if it was trivial to transform the string to an array, I performed the transformation already in the provided input). 
+    1. Encode the puzzle input as a header file, e.g. `input.h` (an important decision I have made was that I will *not* spend too much time on writing I/O procedures for reading and parsing files on the C64; I still did parsing of strings in the code, but if it was trivial to transform the string to an array, I performed the transformation already in the provided input).
     2. Write/debug core algorithm on host. This helped me also to gauge the memory requirements.
     3. Cross-compile with llvm-mos.
     4. Test binary in VICE and finally on real C64 hardware.
@@ -174,10 +174,10 @@ The C64 run time and memory requirements for my solutions to each day of Advent 
 mos-c64-clang++ -Os -flto -Ilib day09/main.cpp -o day09.prg
 
 # run in VICE (or simply just drag & drop day09.prg into a running VICE instance)
-x64sc -silent -autorun day09.prg
+x64sc -silent day09.prg
 
 # for days that need REU
-x64sc -silent -reu -reusize 8192 -autorun day23.prg
+x64sc -silent -reu -reusize 8192 day23.prg
 ```
 
 ---
@@ -361,13 +361,13 @@ This is cosmetic but **priceless** when a day runs for minutes or hours.
 
 ## Acknowledgements
 
-- **Jukka Jylänki** - inspiration, pioneer, and provider of `reucpy.h`.  
-- **llvm-mos team** - for the awesome compiler.  
-- **VICE team** - for reliable (and fast - warp mode) emulation.  
-- **Advent of Code team and especially [u/topaz2078](https://www.reddit.com/user/topaz2078/)** - for puzzles that spark this kind of crazy project.  
+- **Jukka Jylänki** - inspiration, pioneer, and provider of `reucpy.h`.
+- **llvm-mos team** - for the awesome compiler.
+- **VICE team** - for reliable (and fast - warp mode) emulation.
+- **Advent of Code team and especially [u/topaz2078](https://www.reddit.com/user/topaz2078/)** - for puzzles that spark this kind of crazy project.
 
 ---
 
 ## License
 
-The helper library is free to use and modify. If you do, a little nod in my direction would be appreciated.  
+The helper library is free to use and modify. If you do, a little nod in my direction would be appreciated.

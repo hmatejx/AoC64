@@ -39,3 +39,10 @@
 
 # debug information files
 *.dwo
+
+# llvm-mos
+*.prg
+*.elf
+
+# AoC specific
+2021/day*/input.h
