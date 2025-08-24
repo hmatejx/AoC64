@@ -171,13 +171,16 @@ The C64 run time and the potential minimum REU memory requirements for my soluti
 
 ```bash
 # from repo root; the -Os flag is essential (optimize for size)
-mos-c64-clang++ -Os -flto -Ilib day09/main.cpp -o day09.prg
+mos-c64-clang++ -Os -flto -Ilib 2021/day09/main.cpp -o day09.prg
 
 # run in VICE (or simply just drag & drop day09.prg into a running VICE instance)
 x64sc -silent day09.prg
 
 # for days that need REU
 x64sc -silent -reu -reusize 8192 day23.prg
+
+# or if you can't wait so long...
+x64sc -silent -warp -reu -reusize 8192 day23.prg
 ```
 
 ---
@@ -293,6 +296,7 @@ Headers: [`lib/min_heap.h`](lib/min_heap.h), [`lib/min_heap_reu.h`](lib/min_heap
 
 ```c++
 #include "min_heap.h"
+
 struct Node { int16_t priority; Point p; };
 Heap<Node, int16_t, 2048> open;
 
@@ -316,6 +320,8 @@ while (open.size()) {
 Header: [`lib/reucpy.h`](lib/reucpy.h)
 
 ```c++
+#include "reucpy.h"
+
 reu_init();                       		// once
 reuset(0, 0, 1);                  		// preload REU byte 0 with zero (for fast clears)
 
@@ -331,6 +337,8 @@ reu_clear(banks_needed(num_bytes));     // helper to clear a REU region (clears 
 Header: [`lib/AoC64.h`](lib/AoC64.h)
 
 ```c++
+#include "AoC64.h"
+
 init(day_number);         // set up the banner for selected day
 tick(loop_counter & 7);   // animate progres spinner
 finish();                 // display ending stats (e.g. elapsed time etc)
