@@ -3,7 +3,7 @@
 ## TL;DR
 
 - I solved the 2021 series of the Advent of Code (AoC) puzzles in C/C++ on a Commodore 64 (C64), closing the circle, and finally reaching **500 stars**.
-- I am not the first one to achieve this on a C64. According to the best of my knowledge, Jukka Jylänki [did it first on the C64 in 2023](https://clb.confined.space/aoc2023/), and his magnificent and pioneering achievement was my key inspiration.
+- I was not the first one to achieve this on a C64. According to the best of my knowledge, Jukka Jylänki [did it first on the C64 in 2023](https://clb.confined.space/aoc2023/), and his magnificent and pioneering achievement was my key inspiration.
 - To make the solving experience feasible and efficient, I gradually built up a helper library of the most commonly needed data structures. The library grew hand-in-hand with the puzzles. Whenever I hit a need (stack, heap, hash set, ...), I stopped, implemented it, and then reused it later whenever possible. If I noticed a bug or sub-optimal code, I fixed it.
 - Some building blocks, most importantly [`reucpy.h`](lib/reucpy.h), were kindly shared with me by Jukka. Without that REU DMA helper, many solutions would just have been impractical.
 - The C64 is a very limited platform. While some day's solutions take only a few seconds, or even less than a second, there are many days, especially towards the end, where the run time is measured in minutes or hours!
@@ -20,7 +20,7 @@ The [Advent of Code](https://adventofcode.com/) series of programming puzzles ha
 
 In the subsequent years I continued using R, mainly because of my familiarity and fluency with it. Next year I have decided to switch to Python. Python is, after all, very well suited for such tasks. Due to lack of time I skipped a few year's event, did one year in R again, and one in Python.
 
-Experiencing how effective Python was at parsing the inputs (some days it almost felt like cheating), expressing the algorithms, and coding the core logic, I went on binge-solving the remaining years. In doing so I mostly used Python. But then it occurred to me that I was missing an opportunity to learn new languages. Therefore I switched to Go and Rust to solve some other years. I also planned to try out C++ and JavaScript, but since I was not careful with my pacing, I quickly ran out of years still to be solved.
+Experiencing how effective Python was at parsing the inputs (some days it almost felt like cheating), expressing the algorithms, and coding the core logic, I went on binge-solving the remaining years. In doing so I mostly used Python. But then it occurred to me that I was missing an opportunity to learn new languages. Therefore I switched to Go and Rust to solve some other years. I also planned to try out C++ and JavaScript, but because I wasn't careful with my pacing, I quickly ran out of remaining unsolved years.
 
 With only one year (2021) still remaining and two candidate languages to choose from, I made the choice and decided to solve it in C++, a language I already "knew" but hadn't used for a long time. Okay, but how did I end up on a C64, you ask? The answer is, simply, that the _**stars aligned**_:
 
@@ -29,11 +29,11 @@ With only one year (2021) still remaining and two candidate languages to choose 
 - I stumbled upon the awesome pioneering achievement of Jukka Jylänki and was deeply impressed; not only did he solve all days, he also live-streamed the achievement!
 - And lastly, the availability and maturity of the [llvm-mos](https://llvm-mos.org) compiler and the [VICE C64](http://vice-emu.sourceforge.net/) emulator made the whole thing feasible also from a workflow point of view. My MOS6502 assembly skills are far too limited to attempt solving anything but the simplest of the puzzles (and let's not get into the time commitment that would entail...).
 
-Another thing to note is also the element of nostalgia. My first computer ever was a Commodore 128. I fondly remember using the tape drive to load and save my BASIC programs. I never had a floppy drive. And when the tape drive failed, I simply used pen and paper to "store" and "reload" my work. I got quite adept at re-typing the code from scratch from my notebook when starting a new coding session.
+Another important element was nostalgia. My first computer ever was a Commodore 128. I fondly remember using the tape drive to load and save my BASIC programs. I never had a floppy drive. And when the tape drive failed, I simply used pen and paper to "store" and "reload" my work. I got quite adept at re-typing the code from scratch from my notebook when starting a new coding session.
 
-So while the C64 is not exactly the same as the C128, the similarity of the experience still evoked some nice childhood memories and at the same time a reflection on how much things have progressed since then. To be able to close the AoC journey on the C64, solving contemporary puzzles using a modern language on hardware that is very similar to my first computer ever, was an opportunity impossible to pass.
+So while the C64 is not exactly the same as the C128, the experience evoked fond childhood memories while highlighting how much computing has progressed since then. To be able to close the AoC journey on the C64, solving contemporary puzzles using a modern language on hardware that is very similar to my first computer ever, was an opportunity impossible to pass.
 
-The last thing to note in the introduction: please don't expect too much from my code. It's been almost 20 years since I've last used C++. The language has evolved substantially since then and it continues to evolve. For example, I am browsing through discussions about the latest C++23/25/26 standards and I am struggling to understand even half of the nuance.
+The last thing to note in the introduction: please don’t expect cutting-edge modern C++. It's been almost 20 years since I've last used C++. The language has evolved substantially since then and it continues to evolve. For example, I am browsing through discussions about the latest C++23/25/26 standards and I am struggling to understand even half of the nuance.
 
 ---
 
@@ -42,9 +42,9 @@ The last thing to note in the introduction: please don't expect too much from my
 The Commodore 64 / C++ platform has multiple significant limitations that defined the boundary conditions of this experiment.
 
 ### Hardware
-- **RAM**: only 64 KB addressable, minus screen/KERNAL and other reserved areas, effectively landing at slightly below 50 KB, and this include the program executable itself, the input, and any space needed to perform the computation.
+- **RAM**: only 64 KB addressable, minus screen/KERNAL and other reserved areas, effectively landing at slightly below 50 KB, and this includes the program executable itself, the input, and any space needed to perform the computation.
 - **CPU**: MOS 6510, ~1 MHz. Anything algorithmically heavy is measured in minutes/hours.
-- **Registers**: 8-bit A, X, Y; 16-bit addressing. Painful for the compiler for sure, but luckily the compiler can also use the *zero page* (the first 256 Bytes of the C64 memory map) as additional imaginary registers for the compiler due to faster access and additional hardware addressing modes.
+- **Registers**: 8-bit A, X, Y; 16-bit addressing. Painful for the compiler, for sure, but luckily the compiler can also use the *zero page* (the first 256 Bytes of the C64 memory map) as additional imaginary registers for the compiler due to faster access and additional hardware addressing modes.
 - **REU (optional)**: with Jukka Ylänki's `reucpy` helper, which I turned into a header-only implementation, the [REU](https://en.wikipedia.org/wiki/Commodore_REU) becomes a practical extended memory and DMA scratchpad.
 
 ### Software
@@ -80,6 +80,8 @@ Other relevant parts of the library:
 
 ## Workflow & Toolchain
 
+With the growing helper library in place, I could establish a stable workflow.
+
 - **Editor**: [VS Code](https://code.visualstudio.com/).
 - **Compiler**: [llvm-mos](https://llvm-mos.org).
 - **Emulator**: [VICE](http://vice-emu.sourceforge.io/).
@@ -107,53 +109,52 @@ Not every puzzle deserves an expanded story. I have clearly marked (with a ⚠) 
 - **Day 09 - Smoke Basin** ([link](https://adventofcode.com/2021/day/9), [solution](2021/day09/main.cpp)): classic flood fill rephrased for C64 constraints - no recursion, small fixed queue, manual top-3 tracking without sorting. This is the first day that required me to write [a simple array-backed Queue](lib/queue.h) for storing the open set, but the closed set was a simple 2D byte map (bits would take 1/8th of the space, but speed was more important).
 - **Day 10 - Syntax Scoring** ([link](https://adventofcode.com/2021/day/10), [solution](2021/day10/main.cpp)): an archetypal stack problem, so I wrote [a simple array-backed Stack](lib/stack.h) to hold the currently open brackets. For part 2 I used a negative return from `corrupted()` to flag incomplete lines.
 - **Day 11 - Dumbo Octopus** ([link](https://adventofcode.com/2021/day/11), [solution](2021/day11/main.cpp)): iterative flood-fill style propagation with a stack, carefully avoiding recursion and duplicate pushes. REU is used only for quick clearing of state arrays each step.
-- **Day 12 - Passage Pathing** ([link](https://adventofcode.com/2021/day/12), [solution](2021/day12/main.cpp)): compact, iterative DFS over a small graph, with state objects capturing the cave visitation rules. The C64's constraints drove the fixed-capacity stack and array sizes.
+- **Day 12 - Passage Pathing** ([link](https://adventofcode.com/2021/day/12), [solution](2021/day12/main.cpp)): compact, iterative DFS over a small graph, with state objects enforcing cave visitation rules. On the C64, constraints dictated fixed-capacity stack and array sizes.
 - **Day 13 - Transparent Origami** ([link](https://adventofcode.com/2021/day/13), [solution](2021/day13/main.cpp)): efficient set operations via [a simple custom HashSet](lib/hashset.h) to make folding feasible on the C64, and the final part demonstrates the nostalgic thrill of printing out a "message" on screen with no need to fake that retro feeling on a C64.
 - **Day 14 - Extended Polymerization** ([link](https://adventofcode.com/2021/day/14), [solution](2021/day14/main.cpp)): instead of storing the whole polymer this solution implements a pair-counting approach, with REU-accelerated memory copies to make it even faster.
 - **⚠ Day 15 - Chiton** ([link](https://adventofcode.com/2021/day/15), [solution](2021/day15/main.cpp)): this one was a challenge due to memory requirements. Not only I needed to implement [a min Heap](lib/min_heap.h) (a priority queue), I also needed to find a way to store the massive closed set on the REU to make a full Dijkstra feasible on the C64 for very large grids.
 - **Day 16 - Packet Decoder** ([link](https://adventofcode.com/2021/day/16), [solution](2021/day16/main.cpp)): no special structures but low level bit manipulation, implements a full bit-level recursive packet parser and evaluator directly on the C64.
 - **Day 17 - Trick Shot** ([link](https://adventofcode.com/2021/day/17), [solution](2021/day17/main.cpp)): brute-force simulation of possible velocities with early pruning for `vx`, efficient enough on the C64 given small search space.
 - **Day 18 - Snailfish** ([link](https://adventofcode.com/2021/day/18), [solution](2021/day18/main.cpp)): an array-based compact binary tree with manual traversal and no recursion. Here I needed [help from the internet](https://github.com/FransFaase/AdventOfCode2021/blob/main/src/day18_4sol.cpp). I had the right idea in my mind but had trouble with the implementation. For some reason I did not make this structure generic yet, I probably simply forgot and the need for a tree did not reappear in later days.
-- **⚠ Day 19 - Beacon Scanner** ([link](https://adventofcode.com/2021/day/19), [solution](2021/day19/main.cpp)): one of the heaviest problems of AoC 2021, an absolute monster for the C64. The solution leans hard on custom data structures plus the REU for memory management. First, I needed to implement a 24 bit [Pearson hash](lib/pearson.h) to sort calculate distance fingerprints and sort them with the Heap and then store all the sorted distance fingerprints on the REU using [a REU version of the Stack](lib/stack_reu.h). The beacon matches were  detected with a nice linear scan through sourted distance fingerprints. Transformations were found by trying all 24 rotation matrices. The first scanner was taken as origin, and then iteratively overlapping scanner were found with transformations applied to bring them into the same reference frame. Finally, all the beacons were put into a HashSet so that they could be counted.
+- **⚠ Day 19 - Beacon Scanner** ([link](https://adventofcode.com/2021/day/19), [solution](2021/day19/main.cpp)): one of the heaviest problems of AoC 2021, an absolute monster for the C64. The solution leans hard on custom data structures plus the REU for memory management. First, I needed to implement a 24 bit [Pearson hash](lib/pearson.h) to calculate distance fingerprints and sort them with the Heap and then store all the sorted distance fingerprints on the REU using [a REU version of the Stack](lib/stack_reu.h). The beacon matches were  detected with a nice linear scan through sorted distance fingerprints. Transformations were found by trying all 24 rotation matrices. The first scanner was taken as origin, and then iteratively overlapping scanner were found with transformations applied to bring them into the same reference frame. Finally, all the beacons were put into a HashSet so that they could be counted.
 - **Day 20 - Trench Map** ([link](https://adventofcode.com/2021/day/20), [solution](2021/day20/main.cpp)): implements infinite-grid image enhancement via a bit-packed double-buffered image array, with REU-accelerated clears, making it feasible to simulate 50 iterations on the C64.
 - **⚠ Day 21 - Dirac Dice** ([link](https://adventofcode.com/2021/day/21), [solution](2021/day21/main.cpp)): the "deterministic" part is simple, but for part 2 I needed to implement [a REU based HashMap](lib/hashmap_reu.h) for memoization used to make the the vast search space of the recursive algorithm tractable on a C64.
 - **⚠ Day 22 - Reactor Reboot** ([link](https://adventofcode.com/2021/day/22), [solution](2021/day22/main.cpp)): implements the signed volumes solution (inclusion–exclusion principle), storing the large evolving set in the REU to make full Part 2 feasible on the C64.
-- **⚠ Day 23 - Amphipod** ([link](https://adventofcode.com/2021/day/23), [solution](2021/day23/main.cpp)): this was was very challenging from a coding perspective, I kept on changing the way I was represent the state because I didn't like how rule checking code looked. Because I was kind of stuck deciding between representations, I checked the internet for solutions and took various inspirations and parts form them. Technically, this is an implementation of Dijkstra on puzzle states, [a REU-backed HashMap](lib/hashmap_reu.h) and a [REU-backed min Heap](lib/min_heap_reu.h) to handle the massive state space, making even the monstrous part 2 solvable on a C64.
+- **⚠ Day 23 - Amphipod** ([link](https://adventofcode.com/2021/day/23), [solution](2021/day23/main.cpp)): this was was very challenging from a coding perspective, I kept on changing the way I was represent the state because I didn't like how rule checking code looked. Because I was kind of stuck deciding between representations, I checked the internet for solutions and took various inspirations and parts from them. Technically, this is an implementation of Dijkstra on puzzle states, [a REU-backed HashMap](lib/hashmap_reu.h) and a [REU-backed min Heap](lib/min_heap_reu.h) to handle the massive state space, making even the monstrous part 2 solvable on a C64.
 - **Day 24 - Arithmetic Logic Unit** ([link](https://adventofcode.com/2021/day/24), [solution](2021/day24/main.cpp)): it took me way too much time to figure out what the code does, but once I did, I immediately saw that a simple stack will do the job.
 - **Day 25 - Sea Cucumber** ([link](https://adventofcode.com/2021/day/25), [solution](2021/day25/main.cpp)): grid update in two phases with a stack used as a staging buffer.
 
 The C64 run time and the potential minimum REU memory requirements for my solutions to each day of Advent of Code 2021 are shown in the table below.
 
-| Day  | Time (s) | REU | Minimum REU size  |
-| ---- | -------- | --- | ----------------- |
-| 1    | 0.86     |     |                   |
-| 2    | 1.54     |     |                   |
-| 3    | 3.78     |     |                   |
-| 4    | 16.90    |     |                   |
-| 5    | 312.14   | †   |                   |
-| 6    | 0.96     | †   |                   |
-| 7    | 208.60   |     |                   |
-| 8    | 5.68     |     |                   |
-| 9    | 12.12    |     |                   |
-| 10   | 1.40     |     |                   |
-| 11   | 21.72    | †   |                   |
-| 12   | 2369.80  |     |                   |
-| 13   | 11.96    |     |                   |
-| 14   | 10.70    | †   |                   |
-| 15   | 9332.94  | ‡   | 256 kb            |
-| 16   | 2.48     |     |                   |
-| 17   | 46.46    |     |                   |
-| 18   | 503.24   |     |                   |
-| 19   | 449.76   | ‡   | 256 kB            |
-| 20   | 2578.20  | †   |                   |
-| 21   | 1594.54  | ‡   | 512 kB            |
-| 22   | 2686.50  | ‡   | 256 kB            |
-| 23   | 10879.40 | ‡   | 8 MB              |
-| 24   | 1.80     |     |                   |
-| 25   | 1249.14  |     |                   |
+| Day  | Time (s) | REU  | Minimum REU size |
+| ---- | -------- | ---- | ---------------- |
+| 1    | 0.86     |      |                  |
+| 2    | 1.54     |      |                  |
+| 3    | 3.78     |      |                  |
+| 4    | 16.90    |      |                  |
+| 5    | 312.14   | †    |                  |
+| 6    | 0.96     | †    |                  |
+| 7    | 208.60   |      |                  |
+| 8    | 5.68     |      |                  |
+| 9    | 12.12    |      |                  |
+| 10   | 1.40     |      |                  |
+| 11   | 21.72    | †    |                  |
+| 12   | 2369.80  |      |                  |
+| 13   | 11.96    |      |                  |
+| 14   | 10.70    | †    |                  |
+| 15   | 9332.94  | ‡    | 256 kB           |
+| 16   | 2.48     |      |                  |
+| 17   | 46.46    |      |                  |
+| 18   | 503.24   |      |                  |
+| 19   | 449.76   | ‡    | 256 kB           |
+| 20   | 2578.20  | †    |                  |
+| 21   | 1594.54  | ‡    | 512 kB           |
+| 22   | 2686.50  | ‡    | 256 kB           |
+| 23   | 10879.40 | ‡    | 8 MB             |
+| 24   | 1.80     |      |                  |
+| 25   | 1249.14  |      |                  |
 
-† - REU used only for faster memory ops (DMA).
-‡ - REU essential, minimum size listed.
+Legend: † - REU used only for faster memory ops (DMA), ‡ - REU essential, minimum size listed.
 
 ![](img/timing.png)
 
@@ -187,7 +188,7 @@ x64sc -silent -warp -reu -reusize 8192 day23.prg
 
 ## Using the Helper Library
 
-The helpers are **fixed-capacity, array-backed** containers with no dynamic allocation and are thus C64-friendly. REU variants mirror the API but store their payload in REU memory and use the main memory for caching a single item. Before using the REU variants you must call `reu_init()` at least once and potentially initialize the base address for the structure structure to a non-zero address by calling  `.init(base_addr)`.
+The helpers are **fixed-capacity, array-backed** containers with no dynamic allocation, making them C64-friendly. REU variants mirror the API but store their payload in REU memory and use the main memory for caching a single item. Before using the REU variants you must call `reu_init()` at least once and potentially initialize the base address for the structure structure to a non-zero address by calling  `.init(base_addr)`.
 
 ### Common conventions
 
@@ -353,7 +354,7 @@ This is cosmetic but **priceless** when a day runs for minutes or hours.
 - **Fixed-capacity containers**: always know or estimate your maximum upfront.
 - **Memory reuse**: if you don't need some data anymore (e.g. input already parsed), use its memory location for storing other data.
 - **No recursion**: explicit stacks/queues for DFS/BFS.
-- **24-bit integers**: `_BitInt(24)` was a sweet spot forn some cases because a 32 bit int would waste too much memory.
+- **24-bit integers**: `_BitInt(24)` was a sweet spot for some cases because a 32 bit int would waste too much memory.
 - **REU as lifeline**: with `reucpy.h`, bulk copy and zeroing operations are possible; without it, several later puzzles simply wouldn't fit into memory.
 
 ---
