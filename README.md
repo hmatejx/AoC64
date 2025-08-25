@@ -277,7 +277,7 @@ struct Key {
   uint8_t a, b, c, d;
   uint16_t hash() const { return hash16((const uint8_t*)this, sizeof(Key)); }
 };
-bool operator==(const Key&x, const Key&y){
+bool operator==(const Key& x, const Key& y){
   return x.a == y.a && x.b == y.b && x. c== y.c && x.d == y.d;
 }
 struct Value { uint64_t w1, w2; };
@@ -355,6 +355,7 @@ This is cosmetic but **priceless** when a day runs for minutes or hours.
 - **Memory reuse**: if you don't need some data anymore (e.g. input already parsed), use its memory location for storing other data.
 - **No recursion**: explicit stacks/queues for DFS/BFS.
 - **24-bit integers**: `_BitInt(24)` was a sweet spot for some cases because a 32 bit int would waste too much memory.
+- **Avoid division**: integer division on the 6510 is emulated in software and costs hundreds of cycles. Prefer bit-shifts (>>), masks (&), and other tricks for divisors that are powers of two.
 - **REU as lifeline**: with `reucpy.h`, bulk copy and zeroing operations are possible; without it, several later puzzles simply wouldn't fit into memory.
 
 ---
